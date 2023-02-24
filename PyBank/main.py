@@ -1,40 +1,75 @@
 #This is is the financial analysis for PyBank
+import os
+import csv
+
+#Define Names
+total_months = 0
+net = 0
+Date = []
+changes = []
+profit_loss = []
+
 #Source is from budget_Data.csv
+budget_csv = os.path.join('Resources','budget_data.csv')
 
-budget_data = "Resources/ budget_Data.csv"
+# Open and read csv
+with open(budget_csv) as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=",")
+    next(csv_reader)
 
-#Create a variable called 'date' that holds an integer
-date = 86
+    # Read through each row of data after the header
+    for row in csv_reader:
 
-#create a variable called 'total' that holds an integer
-total = 22564198
+    #Total number of months included in dataset
+        total_months+=1
+        
 
-#Create a variable called 'average_change' that holds an integer
-average_change = -8311.11
+    #Net Total amount of Profit/Losses
+        net+=int(row[1])
+        
 
-#Create a variable called 'month_increase' that holds an string
-month_increase = August_16 
+    #Append Date Column to new list
+        Date.append(row[1])
 
-#create a variable called 'increase_amount' that holds an integer
-increase_amount = 1862002
+    #Append Row Column to new list
+        profit_loss.append(int(row[1]))
 
-#Create a variable called 'month_decrease' that holds an string
-month_decrease = February_14
+    #Calculate the profit/loss difference
+        changes.append(profit_loss[total_months-1]-profit_loss[total_months-2])
+        #print(profit_loss)
+    
+    #Sum of difference
+        difference = sum(changes)
 
-#Create a variable called 'decrease_amount' that holds an integer
-decrease_amount = -1825558
+    #Calculate the average and divide by the total rows 
+    # #round two decimal places
+    try:
+        average = round(difference/(len(changes)-1), 2) 
+    except ZeroDivisionError:
+            average = 0
+            
+    
+        
+    #Greatest increase in profit(Date & Amount)
+    profit_increase = max(changes)
+    increase = changes.index(profit_increase)
+  
+    
+    #Greatest decrease in profit(Date & Amount)
+    profit_decrease = min(changes)
+    decrease = changes.index(profit_decrease)
 
-#print out "Total Months"
-print("The total months" + str('date' )
+#Write to text file
+output_path = "pybank_analysis.txt"
 
-#print out "combined total "
-print("The combined" + str('total' )
+file =  open(output_path, 'w') 
 
-#print out "average of profit and loss"
-print("the average of profit and loss" + str('average_change')
+file.write("Financial Analysis\n")
+file.write("----------------------------\n")
+file.write(f"Total Months: {total_months}\n")
+file.write(f"Total: ${net} \n")
+file.write(f"Average Change: ${average}\n")
+file.write(f"Greatest Increase in Profits: {Date[increase]} (${profit_increase}) \n")
+file.write(f"Greatest Decrease in Profits: {Date[decrease]} (${profit_decrease})\n")
 
-#print out "Greatest increase in profit(dates and amounts)"
-print("The greatest increase in profits + str('increase_amount') + occured on + month_increase")
-
-#print out "Greatest decrease in profits(dates and amounts)"
-print("The greatest decrease in profits + str('decrease_amount') + occured on + month_increase")
+file.close()
