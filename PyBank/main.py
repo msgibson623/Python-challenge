@@ -10,7 +10,7 @@ changes = []
 profit_loss = []
 
 #Source is from budget_Data.csv
-budget_csv = os.path.join('Resources','budget_data.csv')
+budget_csv = os.path.join('Python-challenge_2','Resources','budget_data.csv')
 
 # Open and read csv
 with open(budget_csv) as csv_file:
@@ -70,6 +70,6 @@ file.write(f"Total Months: {total_months}\n")
 file.write(f"Total: ${net} \n")
 file.write(f"Average Change: ${average}\n")
 file.write(f"Greatest Increase in Profits: {Date[increase]} (${profit_increase}) \n")
-file.write(f"Greatest Decrease in Profits: {Date[decrease]} (${profit_decrease})\n")
+file.write(f"Greatest Decrease in Profits: {Date[decrease]} (${profit_decrease}) \n")
 
 file.close()
